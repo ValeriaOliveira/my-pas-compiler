@@ -1,13 +1,16 @@
 /*
  * @<parser.c>::
  */
-
+/*					*
+ * Module Developed by Valeria Oliveira *
+ *					*/
+ 
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <parser.h>
-#include <tokens.h>
-#include <main.h>
+#include <parser.h>	// Import Library parser.h
+#include <tokens.h>	// Import Library tokens.h
+#include <main.h>	// Import Library main.h
 
 /*
  * lexer-to-parser interface 
@@ -27,12 +30,12 @@ int             gettoken(FILE *);
 /*
  * grammar emulation functions 
  */
-void
-expr(void){
+void expr(void){
     term();
     rest();
 }
 
+/* Absorv '+' '-' in 1 operator */
 void rest(void){   
     int oplus = lookahead;
     switch (lookahead) {
@@ -41,7 +44,7 @@ void rest(void){
         match(lookahead);
         term();
         rest();
-//		ação semântica dirigida por sintática
+//		ação semântica dirigida por sintática *anotação para autora
 		/*[*/ fprintf(object,"exec(%c)",oplus);/*]*/ 
         break;
     default:
@@ -53,7 +56,8 @@ void term(void){
     fact();
     quoc();
 }
-
+/* Auxiliary Function 
+Absorv '*' '/' in 1 operator */
 void quoc(void){	
 	int otimes = lookahead;
     switch (lookahead) {
@@ -69,6 +73,7 @@ void quoc(void){
     }
 }
 
+/* Informs in order the factors that are analyzed by returning the **types** */ 
 void fact(void){
     switch (lookahead) {
     case UINT:
